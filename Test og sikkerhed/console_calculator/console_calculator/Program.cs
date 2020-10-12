@@ -1,32 +1,29 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using Xunit;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace calculator
+
+namespace console_calculator
 {
-    public partial class Form1 : Form
+    class Program
     {
-        string input;
+        public string input;
         string[] parameters;
-        string action;
-        int value = 0;
-        int first = 0;
-        int sec = 0;
-        private void button1_Click(object sender, EventArgs e)
+        float value;
+        float first;
+        float sec;
+        
+        static void Main(string[] args)
         {
-            input = calculation.Text;
 
-           label1.Text = Calculate(input);
-            
+            Program x = new Program();
+            Console.WriteLine("Hi welcome to my calculator, write some numbers seperated by spaces and then your addition \nExample 2 + 2");
+
+            x.input = Console.ReadLine();
+            Console.WriteLine(x.Calculate(x.input));
+            Console.ReadKey();
         }
-        string Calculate(string input)
+        public string Calculate(string input)
         {
             parameters = input.Split(' ');
             first = Convert.ToInt32(parameters[0]);
@@ -44,7 +41,7 @@ namespace calculator
                     value = first * sec;
                     break;
                 case "/":
-                    if(sec != 0 || first != 0)
+                    if (sec != 0 || first != 0)
                     {
                         value = first / sec;
                     }
@@ -58,14 +55,9 @@ namespace calculator
                     break;
             }
 
-            
 
             return value.ToString();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
