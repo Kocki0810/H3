@@ -2,11 +2,11 @@
 using System.Security.Cryptography.X509Certificates;
 using Xunit;
 
-
 namespace console_calculator
 {
-    class Program
+    public class Program
     {
+        
         public string input;
         string[] parameters;
         float value;
@@ -17,10 +17,12 @@ namespace console_calculator
         {
 
             Program x = new Program();
+            
             Console.WriteLine("Hi welcome to my calculator, write some numbers seperated by spaces and then your addition \nExample 2 + 2");
 
             x.input = Console.ReadLine();
-            Console.WriteLine(x.Calculate(x.input));
+            
+            //Console.WriteLine(x.Calculate(x.input));
             Console.ReadKey();
         }
         public string Calculate(string input)
