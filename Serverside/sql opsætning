@@ -1,0 +1,103 @@
+CREATE SCHEMA `h3` ;
+CREATE TABLE `h3`.`office_assignment` (
+  `instructorID` INT NOT NULL,
+  `location` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`instructorID`));
+
+CREATE TABLE `h3`.`student` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `lastname` VARCHAR(45) NOT NULL,
+  `firstMidName` VARCHAR(45) NOT NULL,
+  `entrollmentDate` DOUBLE NOT NULL,
+  PRIMARY KEY (`ID`));
+
+CREATE TABLE `h3`.`instructor` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `lastname` VARCHAR(45) NOT NULL,
+  `firstMidName` VARCHAR(45) NOT NULL,
+  `hiredate` DOUBLE NOT NULL,
+  PRIMARY KEY (`ID`));
+
+CREATE TABLE `h3`.`department` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `budget` VARCHAR(45) NOT NULL,
+  `startDate` DOUBLE NOT NULL,
+  `instructorID` INT(11) NOT NULL,
+  PRIMARY KEY (`ID`));
+
+CREATE TABLE `h3`.`course` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(45) NOT NULL,
+  `credits` VARCHAR(45) NULL,
+  `deparmentID` INT(11) NOT NULL,
+  PRIMARY KEY (`ID`));
+
+CREATE TABLE `h3`.`course_assignment` (
+  `courseID` INT(11) NOT NULL,
+  `instructorID` INT(11) NOT NULL);
+
+
+CREATE TABLE `h3`.`enrollment` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `courseID` INT(11) NOT NULL,
+  `studentID` INT(11) NOT NULL,
+  `grade` INT(11) NOT NULL,
+  PRIMARY KEY (`ID`));
+
+
+ALTER TABLE `h3`.`instructor` 
+ADD CONSTRAINT `instructorId_office`
+  FOREIGN KEY (`ID`)
+  REFERENCES `h3`.`office_assignment` (`instructorID`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+ALTER TABLE `h3`.`department` 
+ADD INDEX `Instructor_id` (`instructorID` ASC);
+;
+
+ALTER TABLE `h3`.`instructor` 
+ADD CONSTRAINT `instructorId_department`
+  FOREIGN KEY (`ID`)
+  REFERENCES `h3`.`department` (`instructorID`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `h3`.`enrollment` 
+ADD INDEX `CourseID` (`courseID` ASC) ,
+ADD INDEX `StudentID` (`studentID` ASC) ;
+;
+
+ALTER TABLE `h3`.`student` 
+ADD CONSTRAINT `studenId`
+  FOREIGN KEY (`ID`)
+  REFERENCES `h3`.`enrollment` (`studentID`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `h3`.`course` 
+ADD CONSTRAINT `CourseID`
+  FOREIGN KEY (`ID`)
+  REFERENCES `h3`.`enrollment` (`courseID`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `h3`.`course_assignment` 
+ADD INDEX `CoursID` (`courseID` ASC),
+ADD INDEX `InstructorID` (`instructorID` ASC) ;
+;
+ALTER TABLE `h3`.`course` 
+ADD CONSTRAINT `CourseID_assignment`
+  FOREIGN KEY (`ID`)
+  REFERENCES `h3`.`course_assignment` (`courseID`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+
+ALTER TABLE `h3`.`instructor` 
+ADD CONSTRAINT `instructor_id_asignment_course`
+  FOREIGN KEY (`ID`)
+  REFERENCES `h3`.`course_assignment` (`instructorID`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
